@@ -27,10 +27,22 @@ export async function GET(request: NextRequest) {
     }
 
     // Exchange code for tokens
-    const tokens = await exchangeCodeForTokens(code, codeVerifier.value);
+    let tokens;
+    try {
+      tokens = await exchangeCodeForTokens(code, codeVerifier.value);
+    } catch (error) {
+      console.error('Token exchange failed:', error);
+      return NextResponse.redirect(new URL('/?error=token_exchange_failed', request.url));
+    }
 
     // Get user info
-    const userInfo = await getUserInfo(tokens.access_token);
+    let userInfo;
+    try {
+      userInfo = await getUserInfo(tokens.access_token);
+    } catch (error) {
+      console.error('Failed to get user info:', error);
+      return NextResponse.redirect(new URL('/?error=userinfo_failed', request.url));
+    }
 
     // Create session
     const expiresAt = Math.floor(Date.now() / 1000) + tokens.expires_in;

@@ -1,15 +1,14 @@
 import { cookies } from 'next/headers';
 import { SignJWT, jwtVerify } from 'jose';
 import type { SessionData } from '@/types/oidc';
-
-const SESSION_COOKIE_NAME = 'oidc_session';
-const SESSION_SECRET = process.env.NEXTAUTH_SECRET || 'default-secret-change-this';
-const secret = new TextEncoder().encode(SESSION_SECRET);
+import { getSessionSecret, SESSION_COOKIE_NAME } from './config';
 
 /**
  * Create a new session and set it as a cookie
  */
 export async function createSession(sessionData: SessionData): Promise<void> {
+  const secret = new TextEncoder().encode(getSessionSecret());
+  
   const token = await new SignJWT(sessionData)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
@@ -38,6 +37,7 @@ export async function getSession(): Promise<SessionData | null> {
   }
 
   try {
+    const secret = new TextEncoder().encode(getSessionSecret());
     const { payload } = await jwtVerify(token.value, secret);
     return payload as unknown as SessionData;
   } catch (error) {

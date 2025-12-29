@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
-
-const SESSION_COOKIE_NAME = 'oidc_session';
-const SESSION_SECRET = process.env.NEXTAUTH_SECRET || 'default-secret-change-this';
+import { getSessionSecret, SESSION_COOKIE_NAME } from './lib/config';
 
 // Protected routes that require authentication
 const protectedRoutes = ['/dashboard'];
@@ -29,7 +27,7 @@ export async function middleware(request: NextRequest) {
 
   try {
     // Verify the session token
-    const secret = new TextEncoder().encode(SESSION_SECRET);
+    const secret = new TextEncoder().encode(getSessionSecret());
     const { payload } = await jwtVerify(sessionToken.value, secret);
 
     // Check if session is expired
