@@ -61,12 +61,13 @@ export async function getAuthorizationUrl(): Promise<{ url: string; codeVerifier
   const codeChallenge = await oauth.calculatePKCECodeChallenge(codeVerifier);
   const state = oauth.randomState();
 
-  const authorizationUrl = new URL(configuration.serverMetadata().authorization_endpoint!);
+  const authorizationEndpoint = configuration.serverMetadata().authorization_endpoint;
   
-  if (!authorizationUrl) {
+  if (!authorizationEndpoint) {
     throw new Error('Authorization endpoint not available');
   }
   
+  const authorizationUrl = new URL(authorizationEndpoint);
   authorizationUrl.searchParams.set('client_id', oidcConfig.clientId);
   authorizationUrl.searchParams.set('redirect_uri', oidcConfig.redirectUri);
   authorizationUrl.searchParams.set('response_type', 'code');
