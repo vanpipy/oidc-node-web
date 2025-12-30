@@ -5,7 +5,7 @@ import { signIdToken } from '../../mocks/oidc-keys';
 
 // Mock openid-client
 vi.mock('openid-client', async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  // eslint-disable-next-line
   const actual = await importOriginal<typeof import('openid-client')>();
   return {
     ...actual,
