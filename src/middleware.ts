@@ -4,7 +4,7 @@ import { jwtVerify } from 'jose';
 import { getSessionSecret, SESSION_COOKIE_NAME } from './lib/config';
 
 // Protected routes that require authentication
-const protectedRoutes = ['/dashboard'];
+const protectedRoutes = ['/dashboard', '/products'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

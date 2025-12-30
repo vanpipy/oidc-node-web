@@ -15,7 +15,7 @@ A Node.js web service built with Next.js, React, and TypeScript that integrates 
 ## Prerequisites
 
 - Node.js 18.x or higher
-- npm or yarn package manager
+- pnpm package manager
 - Aliyun OIDC application credentials
 
 ## Getting Started
@@ -30,10 +30,12 @@ cd oidc-node-web
 ### 2. Install dependencies
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### 3. Configure environment variables
+
+**No need for this step when mocking and jump to step 4 directly.**
 
 Copy the example environment file and update it with your Aliyun OIDC credentials:
 
@@ -64,7 +66,9 @@ openssl rand -base64 32
 ### 4. Run the development server
 
 ```bash
-npm run dev
+# run first when mocking
+npm run mock:op
+npm run dev:https
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
@@ -72,8 +76,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### 5. Build for production
 
 ```bash
-npm run build
-npm start
+npm run build & npm start
 ```
 
 ## Project Structure
@@ -81,23 +84,16 @@ npm start
 ```
 oidc-node-web/
 ├── src/
-│   ├── app/                    # Next.js App Router pages
+│   ├── app/                   # Next.js App Router pages
 │   │   ├── api/               # API routes
-│   │   │   └── auth/          # Authentication endpoints
-│   │   │       ├── login/     # Login endpoint
-│   │   │       ├── callback/  # OAuth callback
-│   │   │       └── logout/    # Logout endpoint
 │   │   ├── dashboard/         # Protected dashboard page
+│   │   ├── products/          # Protected products page
 │   │   ├── layout.tsx         # Root layout
 │   │   ├── page.tsx           # Home page
 │   │   └── globals.css        # Global styles
 │   ├── lib/                   # Utility libraries
-│   │   ├── oidc.ts           # OIDC client utilities
-│   │   └── session.ts        # Session management
 │   ├── types/                 # TypeScript type definitions
-│   │   └── oidc.ts           # OIDC type definitions
 │   └── middleware.ts          # Route protection middleware
-├── public/                    # Static assets
 ├── .env.example              # Environment variables template
 ├── next.config.ts            # Next.js configuration
 ├── tsconfig.json             # TypeScript configuration
@@ -171,7 +167,7 @@ To use this application with Aliyun OIDC:
 ### Running Tests
 
 ```bash
-npm run test
+npm test
 ```
 
 ### Linting
