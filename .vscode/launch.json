@@ -14,7 +14,7 @@
                 "uriFormat": "%s",
                 "action": "debugWithChrome"
             },
-            "autoAttachChildProcesses": true,
+            "autoAttachChildProcesses": true
         }
     ]
 }
