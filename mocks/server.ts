@@ -1,9 +1,11 @@
 import express from 'express';
+import https from 'https';
+import selfsigned from 'selfsigned';
 import { getJWKS, signIdToken } from './oidc-keys';
 
 const app = express();
 const PORT = 4000;
-const ISSUER = `http://localhost:${PORT}`;
+const ISSUER = `https://localhost:${PORT}`;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -80,6 +82,20 @@ app.get('/userinfo', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Mock OIDC Provider running at ${ISSUER}`);
-});
+// Generate self-signed certificate
+(async () => {
+  const attrs = [{ name: 'commonName', value: 'localhost' }];
+  try {
+    const pems = await selfsigned.generate(attrs);
+    console.log('Certificate generated successfully.');
+
+    https.createServer({
+      key: pems.private,
+      cert: pems.cert
+    }, app).listen(PORT, () => {
+      console.log(`Mock OIDC Provider running at ${ISSUER}`);
+    });
+  } catch (err) {
+    console.error('Failed to generate certificate:', err);
+  }
+})();

@@ -19,10 +19,10 @@ vi.mock('openid-client', async (importOriginal) => {
 
 describe('OIDC Library', () => {
   beforeAll(() => {
-    vi.stubEnv('OIDC_ISSUER', 'http://localhost:4000');
+    vi.stubEnv('OIDC_ISSUER', 'https://localhost:4000');
     vi.stubEnv('OIDC_CLIENT_ID', 'mock-client-id');
     vi.stubEnv('OIDC_CLIENT_SECRET', 'mock-client-secret');
-    vi.stubEnv('OIDC_REDIRECT_URI', 'http://localhost:3000/api/auth/callback');
+    vi.stubEnv('OIDC_REDIRECT_URI', 'https://localhost:3000/api/auth/callback');
   });
 
   afterAll(() => {
@@ -33,13 +33,13 @@ describe('OIDC Library', () => {
     // Mock the discovery call
     vi.mocked(oauth.discovery).mockResolvedValue({
       serverMetadata: () => ({
-        authorization_endpoint: 'http://localhost:4000/authorize',
+        authorization_endpoint: 'https://localhost:4000/authorize',
       }),
     } as any);
 
     const { url, codeVerifier, state } = await getAuthorizationUrl();
 
-    expect(url).toContain('http://localhost:4000/authorize');
+    expect(url).toContain('https://localhost:4000/authorize');
     expect(url).toContain('client_id=mock-client-id');
     expect(url).toContain('scope=openid+profile+email');
     expect(codeVerifier).toBe('mock-verifier');
@@ -50,7 +50,7 @@ describe('OIDC Library', () => {
     // Mock the discovery call
     vi.mocked(oauth.discovery).mockResolvedValue({
       serverMetadata: () => ({
-        token_endpoint: 'http://localhost:4000/token',
+        token_endpoint: 'https://localhost:4000/token',
       }),
     } as any);
 
@@ -60,7 +60,7 @@ describe('OIDC Library', () => {
       name: 'Test User',
       email: 'test@example.com',
       aud: 'mock-client-id',
-      iss: 'http://localhost:4000',
+      iss: 'https://localhost:4000',
     });
 
     // Mock the authorizationCodeGrant call
