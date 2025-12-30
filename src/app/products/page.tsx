@@ -25,12 +25,15 @@ export default async function ProductsPage() {
   });
 
   if (!res.ok) {
+    console.error(`Failed to load products (Status: ${res.status} ${res.statusText})`);
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
             <h1 className="text-2xl font-bold mb-4">Products</h1>
-            <p className="text-red-600 dark:text-red-400">Failed to load products.</p>
+            <p className="text-red-600 dark:text-red-400">
+              Failed to load products (Status: {res.status} {res.statusText || ''}).
+            </p>
             <div className="mt-6">
               <Link href="/dashboard" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Back to Dashboard</Link>
             </div>
@@ -63,20 +66,24 @@ export default async function ProductsPage() {
         <div className="px-4 py-6 sm:px-0">
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
-              <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                {products.map((p) => (
-                  <li key={p.id} className="py-4 flex items-start justify-between">
-                    <div>
-                      <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{p.name}</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">{p.description}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-base font-medium text-gray-900 dark:text-gray-100">${p.price.toFixed(2)}</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">ID: {p.id}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              {products.length === 0 ? (
+                <p className="text-sm text-gray-600 dark:text-gray-400">No products available.</p>
+              ) : (
+                <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+                  {products.map((p) => (
+                    <li key={p.id} className="py-4 flex items-start justify-between">
+                      <div>
+                        <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{p.name}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{p.description}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-base font-medium text-gray-900 dark:text-gray-100">${p.price.toFixed(2)}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">ID: {p.id}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         </div>
