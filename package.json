@@ -14,7 +14,12 @@
     "lint": "next lint",
     "mock:op": "tsx mocks/server.ts",
     "test": "vitest",
-    "prepare": "husky"
+    "certs:gen": "tsx scripts/generate-certs.ts",
+    "prepare": "husky",
+    "docker:build": "docker build -t oidc-node-web:latest .",
+    "docker:run": "docker run --rm -p 3000:3000 --env-file .env oidc-node-web:latest",
+    "docker:up": "docker-compose up --build",
+    "docker:down": "docker-compose down"
   },
   "dependencies": {
     "jose": "^5.9.6",
