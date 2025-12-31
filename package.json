@@ -44,7 +44,7 @@
     "vitest": "^4.0.16"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "src/**/*.{ts,tsx}": [
       "next lint --fix"
     ]
   }
