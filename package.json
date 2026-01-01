@@ -11,7 +11,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "mock:op": "tsx mocks/server.ts",
     "test": "vitest",
     "prepare": "husky"
@@ -24,6 +24,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.3",
     "@types/express": "^5.0.6",
     "@types/node": "^22",
     "@types/react": "^19",
@@ -45,7 +46,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "next lint --fix"
+      "eslint --fix"
     ]
   }
 }
