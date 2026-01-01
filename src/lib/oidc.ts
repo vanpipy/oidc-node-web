@@ -71,7 +71,7 @@ export async function getAuthorizationUrl(): Promise<{ url: string; codeVerifier
   authorizationUrl.searchParams.set('client_id', oidcConfig.clientId);
   authorizationUrl.searchParams.set('redirect_uri', oidcConfig.redirectUri);
   authorizationUrl.searchParams.set('response_type', 'code');
-  authorizationUrl.searchParams.set('scope', 'openid profile email');
+  authorizationUrl.searchParams.set('scope', 'openid profile');
   authorizationUrl.searchParams.set('code_challenge', codeChallenge);
   authorizationUrl.searchParams.set('code_challenge_method', 'S256');
   authorizationUrl.searchParams.set('state', state);
