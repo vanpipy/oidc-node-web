@@ -7,6 +7,7 @@
     "pnpm": ">=9"
   },
   "scripts": {
+    "dev:https:domain": "next dev -H local.oidc-web.com --experimental-https",
     "dev:https": "next dev --experimental-https",
     "dev": "next dev",
     "build": "next build",

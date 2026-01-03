@@ -35,7 +35,7 @@ pnpm install
 
 ### 3. Configure environment variables
 
-**No need for this step when mocking and jump to step 4 directly.**
+#### 3.1 For Mocking
 
 Copy the example environment file and update it with your Aliyun OIDC credentials:
 
@@ -43,18 +43,12 @@ Copy the example environment file and update it with your Aliyun OIDC credential
 cp .env.example .env
 ```
 
-Edit the `.env` file with your Aliyun OIDC configuration:
+#### 3.2 For Aliyun OIDC
 
-```env
-# Aliyun OIDC Configuration
-OIDC_ISSUER=https://your-aliyun-oidc-issuer.aliyuncs.com
-OIDC_CLIENT_ID=your-client-id
-OIDC_CLIENT_SECRET=your-client-secret
-OIDC_REDIRECT_URI=http://localhost:3000/api/auth/callback
+Copy the example environment file and update it with your Aliyun OIDC credentials:
 
-# Application URL
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-secret-key-change-this-in-production
+```bash
+cp .env.test .env
 ```
 
 **Important**: Generate a secure random string for `NEXTAUTH_SECRET`. You can use:
@@ -65,6 +59,8 @@ openssl rand -base64 32
 
 ### 4. Run the development server
 
+#### 4.1 For Mocking
+
 ```bash
 # run first when mocking
 npm run mock:op
@@ -72,6 +68,14 @@ npm run dev:https
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+#### 4.2 For Aliyun OIDC
+
+```bash
+npm run dev:https:domain
+```
+
+Open [https://local.oidc-node.com](https://local.oidc-node.com) in your browser.
 
 ### 5. Build for production
 
